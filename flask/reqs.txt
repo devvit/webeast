@@ -1,0 +1,14 @@
+aiopg
+aioredis
+bottle
+Flask
+gunicorn
+meinheld
+peewee
+peewee-async
+psycopg2
+PyMySQL
+redis
+sanic
+ujson
+uvloop

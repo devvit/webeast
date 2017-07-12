@@ -1,0 +1,16 @@
+#
+
+source 'https://rubygems.org'
+
+gem 'sinatra', '1.4.8'
+gem 'sinatra-contrib'
+
+gem 'activerecord', require: 'active_record'
+gem 'connection_pool'
+gem 'hiredis'
+# gem 'mysql2'
+# gem 'oj'
+gem 'redis'
+gem 'pg'
+# gem 'puma'
+gem 'thin'

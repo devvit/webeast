@@ -1,0 +1,18 @@
+#
+
+source 'https://rubygems.org'
+
+gem 'sinatra', '1.4.8'
+gem 'sinatra-contrib'
+
+gem 'connection_pool'
+gem 'hiredis'
+# gem 'jdbc-postgres'
+# gem 'trinidad'
+# gem 'mysql2'
+# gem 'oj'
+gem 'pg'
+# gem 'puma'
+gem 'redis'
+gem 'sequel'
+gem 'thin'

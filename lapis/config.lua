@@ -1,0 +1,27 @@
+local config = require('lapis.config')
+config({
+  'development',
+  'production',
+  'test'
+}, function()
+  secret('mysecret')
+  return postgres(function()
+    host('127.0.0.1')
+    user('foo')
+    return database('testdb')
+  end)
+end)
+config('development', function()
+  port(9090)
+  num_workers(1)
+  return daemon('off')
+end)
+config('production', function()
+  port(9090)
+  num_workers(2)
+  daemon('off')
+  return code_cache('on')
+end)
+return config('test', function()
+  return port(9090)
+end)
