@@ -1,6 +1,6 @@
 package org.example
 
-import org.jetbrains.ktor.netty.*
+import org.jetbrains.ktor.jetty.*
 import org.jetbrains.ktor.routing.*
 import org.jetbrains.ktor.application.*
 import org.jetbrains.ktor.host.*
@@ -78,7 +78,7 @@ class App {
             jedisCfg.setBlockWhenExhausted(true)
             val jedisPool = JedisPool(jedisCfg, "localhost")
 
-            embeddedServer(Netty, 3000) {
+            embeddedServer(Jetty, 3000) {
                 routing {
 
                     get("/json") {
@@ -107,7 +107,7 @@ class App {
                     }
 
                 }
-            }.start(wait = true)
+            }.start()
         }
     }
 

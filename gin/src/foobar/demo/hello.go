@@ -10,9 +10,11 @@ import (
 	_ "github.com/lib/pq"
 	eztemplate "github.com/michelloworld/ez-gin-template"
 	"github.com/pangudashu/memcache"
+	"github.com/parnurzeal/gorequest"
 	"net/http"
 	"runtime"
 	"time"
+	"unicode/utf8"
 )
 
 func Reverse(s string) string {
@@ -73,7 +75,7 @@ func main() {
 	}
 
 	engine.SetMapper(core.SameMapper{})
-	engine.ShowSQL(true)
+	engine.ShowSQL(false)
 	engine.SetMaxOpenConns(10)
 	engine.SetMaxIdleConns(10)
 
@@ -108,6 +110,14 @@ func main() {
 		value, _ := redis.String(rds.Do("GET", "mydata"))
 
 		c.String(200, value)
+	})
+
+	router.GET("/rest", func(c *gin.Context) {
+		req := gorequest.New().Timeout(60000 * time.Millisecond)
+		_, body, _ := req.Get("http://twitter.com").End()
+		c.JSON(200, gin.H{
+			"size": utf8.RuneCountInString(body),
+		})
 	})
 
 	router.GET("/select", func(c *gin.Context) {
@@ -147,15 +157,14 @@ func main() {
 	// mc.Set(&memcache.Item{Key: "testkey", Value: []byte("HELLO,WORLD.")})
 	router.GET("/mc", func(c *gin.Context) {
 		v, _, _ := mc.Get("testkey")
-		if vs, ok := v.(string); ok {
-			c.String(200, vs)
-		}
+		c.String(200, v.(string))
+
 		/*
 			it, _ := mc.Get("testkey")
 			c.String(200, string(it.Value))
 		*/
 	})
 
-	// router.Run(":9000")
-	router.RunUnix("/tmp/test.sock")
+	router.Run(":3000")
+	// router.RunUnix("/tmp/test.sock")
 }

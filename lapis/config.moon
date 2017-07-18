@@ -13,6 +13,10 @@ config 'development', ->
   port 9090
   num_workers 1
   daemon 'off'
+  mysql ->
+    path '/tmp/mysql.sock'
+    user 'root'
+    database 'testdb'
 
 config 'production', ->
   port 9090

@@ -3,6 +3,7 @@
 import redis
 
 from peewee import Model, CharField, PostgresqlDatabase
+# MySQLDatabase
 
 # db = MySQLDatabase('testdb', host='localhost', user='root', password='')
 db = PostgresqlDatabase('testdb', host='localhost')

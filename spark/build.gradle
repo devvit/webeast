@@ -10,7 +10,6 @@ group 'org.example'
 
 buildscript {
   ext.kotlin_version = '1.1.3-2'
-  ext.ebean_version = "9.5.1"
 
   repositories {
     mavenCentral()
@@ -18,11 +17,12 @@ buildscript {
 
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    classpath "org.avaje.ebean:ebean-gradle-plugin:0.1.1"
+    classpath "io.ebean:ebean-gradle-plugin:10.2.2"
   }
 }
 
 apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'ebean'
 
 // Apply the java plugin to add support for Java
@@ -40,7 +40,7 @@ repositories {
 }
 
 sourceSets {
-  main.java.srcDirs += [file("$buildDir/generated/source/kapt/main")]
+  main.java.srcDirs += [file("$buildDir/generated/source/kaptKotlin/main")]
 }
 
 dependencies {
@@ -51,18 +51,24 @@ dependencies {
   // testCompile 'junit:junit:4.12'
 
 
+  kapt "io.ebean:kotlin-querybean-generator:10.1.2"
+
+  compile "io.ebean:ebean:10.4.1"
+  compile "io.ebean:ebean-querybean:10.3.1"
+
   compile 'org.postgresql:postgresql:42.1.1'
 
-  compile "org.avaje.ebean:ebean:$ebean_version"
-  compile "org.avaje.ebean:ebean-querybean:9.3.1"
-
   compile 'com.github.salomonbrys.kotson:kotson:2.5.0'
-
   compile 'redis.clients:jedis:2.9.0'
   compile 'com.zaxxer:HikariCP:2.6.3'
 
   compile "com.sparkjava:spark-core:2.6.0"
   compile "com.sparkjava:spark-kotlin:1.0.0-alpha"
+
+  compile 'org.redisson:redisson:3.4.4'
+
+  compile 'com.googlecode.xmemcached:xmemcached:2.3.1'
+  compile 'khttp:khttp:0.1.0'
 }
 
 // Define the main class for the application
@@ -74,7 +80,7 @@ kapt {
 
 ebean {
   debugLevel = 0
-  packages = ['org.example']
+  // packages = ['org.example']
 }
 
 compileKotlin {

@@ -12,3 +12,4 @@ redis
 sanic
 ujson
 uvloop
+requests

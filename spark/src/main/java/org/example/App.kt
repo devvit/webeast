@@ -11,16 +11,18 @@ import javax.persistence.MappedSuperclass
 
 import redis.clients.jedis.*
 
-import com.avaje.ebean.Ebean
-import com.avaje.ebean.config.ServerConfig
-import com.avaje.ebean.EbeanServerFactory
-import com.avaje.ebean.Model
-import com.avaje.ebean.Finder
+import io.ebean.Ebean
+import io.ebean.config.ServerConfig
+import io.ebean.EbeanServerFactory
+import io.ebean.Model
+import io.ebean.Finder
 
 import com.github.salomonbrys.kotson.*
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+
+import khttp.get
 
 @MappedSuperclass
 abstract class AbsModel : Model() {
@@ -48,10 +50,13 @@ class App {
         @JvmStatic fun main(args: Array<String>) {
 
             val ds = HikariDataSource()
-            ds.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb")
+            // ds.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb")
+            ds.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource")
             // ds.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource")
             // ds.setServerName("localhost")
             // ds.setPortNumber(5432)
+            ds.addDataSourceProperty("databaseName", "testdb")
+            ds.addDataSourceProperty("sslMode", "disable")
             ds.setUsername("foo")
             ds.setPassword("")
             ds.setMaximumPoolSize(10)
@@ -76,7 +81,7 @@ class App {
             val jedisPool = JedisPool(jedisCfg, "localhost")
 
             val http = ignite()
-            http.port(3000)
+            http.port(System.getenv("PORT").toInt())
             http.threadPool(10)
 
             http.get("/json") {
@@ -84,10 +89,23 @@ class App {
             }
 
             http.get("/redis") {
+                (jedisPool.getResource()).use { jedis ->
+                    jedis.get("mydata")
+                }
+
+                /*
                 val jedis: Jedis = jedisPool.getResource()
                 val v = jedis.get("mydata")
                 jedis.close()
                 v
+                */
+            }
+
+            http.get("/rest") {
+                val res = get("http://twitter.com").text
+                jsonObject(
+                        "size" to res.length
+                ).toString()
             }
 
             http.get("/select") {

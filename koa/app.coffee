@@ -83,4 +83,5 @@ api.get '/mc', (ctx) =>
       else
         resolve data
 
-app.listen process.argv[2]
+# app.listen process.argv[2]
+app.listen 3000

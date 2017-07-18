@@ -8,7 +8,8 @@ config :myweb, Myweb.Repo,
   username: "foo",
   password: "",
   hostname: "localhost",
-  loggers: []
+  loggers: [],
+  pool_size: 10
 
 config :myweb, ecto_repos: [Myweb.Repo]
 

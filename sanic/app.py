@@ -10,7 +10,12 @@ from sanic import Sanic
 from sanic import response
 
 app = Sanic(__name__)
-db = peewee_async.PostgresqlDatabase('testdb', host='localhost')
+db = peewee_async.PooledPostgresqlDatabase(
+    'testdb',
+    host='localhost',
+    autorollback=True,
+    max_connections=5
+)
 db.set_allow_sync(False)
 objs = peewee_async.Manager(db)
 
@@ -28,8 +33,8 @@ async def before_server_start(app, loop):
     app.redis_pool = await aioredis.create_pool(
         ('localhost', 6379),
         encoding='utf-8',
-        minsize=5,
-        maxsize=10,
+        minsize=1,
+        maxsize=5,
         loop=loop
     )
 
@@ -62,4 +67,11 @@ async def test_update(request):
 if __name__ == '__main__':
     usock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     usock.bind('/tmp/test.sock')
-    app.run(sock=usock, debug=False, log_config=None, workers=2, host=None, port=None)
+    app.run(
+        # sock=usock,
+        debug=False,
+        log_config=None,
+        workers=2,
+        host='0.0.0.0',
+        port=3000
+    )

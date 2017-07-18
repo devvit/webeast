@@ -2,6 +2,8 @@
 
 import json
 
+import requests
+
 from flask import Flask
 
 from db import Item, rds
@@ -17,6 +19,12 @@ def my_json():
 @app.route('/redis')
 def my_redis():
     return rds.get('mydata')
+
+
+@app.route('/rest')
+def my_rest():
+    res = requests.get('http://twitter.com')
+    return json.dumps({'id': len(res.text)})
 
 
 @app.route('/select')

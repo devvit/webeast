@@ -7,13 +7,15 @@ end
 defmodule Myweb.Item do
   use Ecto.Schema
 
+  import Ecto.Changeset
+
   schema "items" do
     field :title, :string
   end
 
   def changeset(person, params \\ %{}) do
     person
-    |> Ecto.Changeset.cast(params, [:title])
+    |> cast(params, [:title])
   end
 end
 
@@ -36,6 +38,7 @@ defmodule Myweb.Apiv1 do
   alias RedixPool, as: Redis
   alias Myweb.Repo
   alias Myweb.Item
+
   use Maru.Router
   version 'v1'
 
@@ -47,15 +50,26 @@ defmodule Myweb.Apiv1 do
     text(conn, elem(Redis.command(["GET", "mydata"]), 1))
   end
 
+  get "/rest" do
+    res = HTTPotion.get("http://twitter.com", [timeout: 60000])
+    json(conn, %{size: String.length(res.body)})
+  end
+
   get "/select" do
-    item = Item |> Repo.get(1)
+    item = Repo.get(Item, 1)
     json(conn, %{id: item.id, title: item.title})
   end
 
   get "/update" do
-    item = Item |> Repo.get(1)
+    item = Repo.get!(Item, 1)
     changeset = Item.changeset(item, %{title: String.reverse(item.title)})
-    Repo.update(changeset)
-    json(conn, %{id: item.id, title: item.title})
+    case Repo.update(changeset) do
+      {:ok, item} ->
+        json(conn, %{id: item.id, title: item.title})
+      {:error, _result} ->
+        conn
+        |> put_status(404)
+        |> text("not found, something error")
+    end
   end
 end
