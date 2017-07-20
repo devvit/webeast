@@ -1,4 +1,5 @@
 --
+-- lapis 1.5.1-1
 
 lapis = require "lapis"
 redis = require 'resty.redis'
