@@ -1,0 +1,10 @@
+{
+  apps : [
+    {
+      script             : 'app.js',
+      exec_mode          : 'cluster',
+      instances          : 'max',
+      max_memory_restart : '260M'
+    }
+  ]
+}

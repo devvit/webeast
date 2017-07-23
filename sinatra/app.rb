@@ -2,7 +2,7 @@
 
 ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
 
-LockAndCache.storage = Redis.new
+# LockAndCache.storage = Redis.new
 
 class Item < ActiveRecord::Base
 
@@ -10,7 +10,7 @@ end
 
 class App < Sinatra::Base
   REDIS = ConnectionPool::Wrapper.new(size: 10, timeout: 3) { Redis.connect driver: :hiredis }
-  KACHE = ActiveSupport::Cache.lookup_store :dalli_store, race_condition_ttl: 10
+  # KACHE = ActiveSupport::Cache.lookup_store :dalli_store, race_condition_ttl: 10
 
   configure do
     disable :static

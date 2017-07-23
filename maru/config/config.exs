@@ -13,10 +13,14 @@ config :myweb, Myweb.Repo,
 
 config :myweb, ecto_repos: [Myweb.Repo]
 
-config :redix_pool,
-  redis_url: "redis://localhost:6379",
-  pool_size: 10,
-  pool_max_overflow: 1
+config :redis_pool, :pools, [
+  rds: [size: 10, host: 'localhost', port: 6379]
+]
+
+# config :redix_pool,
+# redis_url: "redis://localhost:6379",
+# pool_size: 10,
+# pool_max_overflow: 1
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this

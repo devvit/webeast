@@ -165,6 +165,6 @@ func main() {
 		*/
 	})
 
-	 router.Run(":3000")
-	 // router.RunUnix("/tmp/test.sock")
+	 // router.Run(":3000")
+	 router.RunUnix("/tmp/test.sock")
 }
