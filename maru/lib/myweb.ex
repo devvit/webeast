@@ -27,6 +27,7 @@ defmodule Myweb do
 
     children = [
       supervisor(Myweb.Repo, []),
+      worker(Cachex, [:my_cache, []])
     ]
 
     opts = [strategy: :one_for_one, name: Myweb.Supervisor]
@@ -47,6 +48,16 @@ defmodule Myweb.Apiv1 do
 
   get "/redis" do
     {_, v} = RedisPool.q({:global, :rds}, ["GET", "mydata"])
+    text(conn, v)
+  end
+
+  get "/ets_set" do
+    {_, v} = Cachex.set(:my_cache, "testkey", "hello,world.")
+    text(conn, v)
+  end
+
+  get "/ets" do
+    {_, v} = Cachex.get(:my_cache, "testkey")
     text(conn, v)
   end
 

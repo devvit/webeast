@@ -12,6 +12,7 @@ import (
 	"github.com/pangudashu/memcache"
 	"github.com/parnurzeal/gorequest"
 	"net/http"
+	"os"
 	"runtime"
 	"time"
 	"unicode/utf8"
@@ -36,7 +37,7 @@ func (Item) TableName() string {
 
 func SetupRedis() *redis.Pool {
 	return redis.NewPool(func() (redis.Conn, error) {
-		c, err := redis.Dial("tcp", ":6379")
+		c, err := redis.Dial("unix", "/tmp/redis.sock")
 
 		if err != nil {
 			panic("error")
@@ -69,7 +70,8 @@ func main() {
 	redisPool.MaxActive = 10
 	defer redisPool.Close()
 
-	engine, err := xorm.NewEngine("postgres", "postgres://localhost/testdb?sslmode=disable")
+	engine, err := xorm.NewEngine("postgres", "host=/tmp dbname=testdb")
+	// engine, err := xorm.NewEngine("postgres", "postgres://localhost/testdb?sslmode=disable")
 	if err != nil {
 		return
 	}
@@ -165,6 +167,10 @@ func main() {
 		*/
 	})
 
-	   // router.Run(":3000")
-	   router.RunUnix("/tmp/test.sock")
+	port, is_port := os.LookupEnv("PORT")
+	if is_port {
+		router.Run(port)
+	} else {
+		router.RunUnix("/tmp/test.sock")
+	}
 }
