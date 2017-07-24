@@ -3,7 +3,7 @@ defmodule Myweb.Mixfile do
 
   def project do
     [app: :myweb,
-     version: "0.1.0",
+     version: "0.2.0",
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -36,7 +36,6 @@ defmodule Myweb.Mixfile do
       {:ecto, ''},
       {:postgrex, ''},
       {:httpotion, ''},
-      # {:redix_pool, ''},
       {:eredis, git: "https://github.com/wooga/eredis", override: true},
       {:redis_pool, git: "https://github.com/le0pard/redis_pool"}
     ]

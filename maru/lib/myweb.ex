@@ -35,7 +35,6 @@ defmodule Myweb do
 end
 
 defmodule Myweb.Apiv1 do
-  # alias RedixPool, as: Redis
   alias Myweb.Repo
   alias Myweb.Item
 
@@ -44,10 +43,6 @@ defmodule Myweb.Apiv1 do
 
   get "/json" do
     json(conn, %{hello: :world})
-  end
-
-  get "/redis_old" do
-    text(conn, elem(Redis.command(["GET", "mydata"]), 1))
   end
 
   get "/redis" do

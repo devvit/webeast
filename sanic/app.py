@@ -68,10 +68,10 @@ if __name__ == '__main__':
     usock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     usock.bind('/tmp/test.sock')
     app.run(
-        sock=usock,
+        # sock=usock,
         debug=False,
         log_config=None,
         workers=2,
-        host=None,
-        port=None
+        host='0.0.0.0',
+        port=3000
     )
