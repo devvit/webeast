@@ -6,7 +6,7 @@ redis_down = nil
 
 connect_redis = ->
   r = redis\new!
-  ok, err = r\connect '127.0.0.1', 6379
+  ok, err = r\connect 'unix:/tmp/redis.sock'
   if ok
     r
   else
