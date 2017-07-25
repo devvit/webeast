@@ -32,13 +32,13 @@ defmodule Myweb.Mixfile do
     [
       {:cowboy, ''},
       {:maru, ''},
-      {:poison, ''},
       {:ecto, ''},
       {:postgrex, ''},
       {:httpotion, ''},
       {:eredis, git: "https://github.com/wooga/eredis", override: true},
       {:redis_pool, git: "https://github.com/le0pard/redis_pool"},
-      {:cachex, ''}
+      {:cachex, ''},
+      {:memcachir, git: "https://github.com/peillis/memcachir"}
     ]
   end
 end

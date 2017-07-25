@@ -19,6 +19,8 @@ config :redis_pool, :pools, [
   rds: [size: 10, host: 'localhost', port: 6379]
 ]
 
+config :memcachir, hosts: "localhost", pool: [size: 10, max_overflow: 10, strategy: :lifo]
+
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
 # file won't be loaded nor affect the parent project. For this reason,

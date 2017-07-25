@@ -61,6 +61,16 @@ defmodule Myweb.Apiv1 do
     text(conn, v)
   end
 
+  get "/mc_set" do
+    {ok} = Memcachir.set("mykey", "hello,world.")
+    text(conn, "#{ok}")
+  end
+
+  get "/mc_get" do
+    {_, v} = Memcachir.get("mykey")
+    text(conn, "#{v}")
+  end
+
   get "/rest" do
     res = HTTPotion.get("http://twitter.com", [timeout: 60000])
     json(conn, %{size: String.length(res.body)})
