@@ -5,7 +5,7 @@ config = require 'lapis.config'
 config {'development', 'production', 'test'}, ->
   secret 'mysecret'
   postgres ->
-    host '127.0.0.1'
+    host 'unix:/tmp/.s.PGSQL.5432'
     user 'foo'
     database 'testdb'
 
