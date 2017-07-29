@@ -9,6 +9,8 @@ Sequelize = require 'sequelize'
 # poolSize: 3
 # }
 
+# http = require('uws').http
+
 rpool = require '@npmcorp/redis-pool'
 
 sequelize = new Sequelize 'postgres://localhost/testdb', {
@@ -35,9 +37,13 @@ app.use api.routes()
 api.get '/json', (ctx) =>
   ctx.body = { hello: 'world' }
 
-api.get '/redis', (ctx) =>
+api.get '/get', (ctx) =>
   ctx.body = await rpool.withConnection (rds) =>
     rds.getAsync 'mydata'
+
+api.get '/set', (ctx) =>
+  ctx.body = await rpool.withConnection (rds) =>
+    rds.setAsync 'uid', ctx.headers['x-request-id']
 
 api.get '/select', (ctx) =>
   item = await Item.findById 1, { attributes: ['id', 'title'] }
@@ -65,4 +71,5 @@ api.get '/mc', (ctx) =>
       else
         resolve data
 
+# http.createServer(app.callback()).listen(3000)
 app.listen process.argv[2]

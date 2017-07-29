@@ -27,9 +27,15 @@ class App < Sinatra::Base
     { hello: 'world' }.to_json
   end
 
-  get '/redis' do
+  get '/get' do
     REDIS.with do |conn|
       conn.get('mydata')
+    end
+  end
+
+  get '/set' do
+    REDIS.with do |conn|
+      conn.set('uid', request.env['HTTP_X_REQUEST_ID'])
     end
   end
 

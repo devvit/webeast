@@ -2,7 +2,9 @@
 
 package org.example
 
-import spark.kotlin.*
+// import spark.kotlin.*
+
+import spark.Spark.*
 
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -80,40 +82,38 @@ class App {
             jedisCfg.setBlockWhenExhausted(true)
             val jedisPool = JedisPool(jedisCfg, "localhost")
 
-            val http = ignite()
-            http.port(System.getenv("PORT").toInt())
-            http.threadPool(10)
+            port(System.getenv("PORT").toInt())
+            threadPool(10)
 
-            http.get("/json") {
+            get("/json") { req, res ->
                 "hello spark\n"
             }
 
-            http.get("/redis") {
+            get("/get") { req, res ->
                 (jedisPool.getResource()).use { jedis ->
                     jedis.get("mydata")
                 }
-
-                /*
-                val jedis: Jedis = jedisPool.getResource()
-                val v = jedis.get("mydata")
-                jedis.close()
-                v
-                */
             }
 
-            http.get("/rest") {
+            get("/set") { req, res ->
+                (jedisPool.getResource()).use { jedis ->
+                    jedis.set("uid", req.headers("X-Request-Id"))
+                }
+            }
+
+            get("/rest") { req, res ->
                 val res = get("http://twitter.com").text
                 jsonObject(
                         "size" to res.length
                 ).toString()
             }
 
-            http.get("/select") {
+            get("/select") { req, res ->
                 val item = Item.find.byId(1)
                 Ebean.json().toJson(item)
             }
 
-            http.get("/update") {
+            get("/update") { req, res ->
                 var v = ""
                 val item = Item.find.byId(1)
                 if (item != null) {

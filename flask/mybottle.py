@@ -2,7 +2,7 @@
 
 import json
 
-from bottle import Bottle
+from bottle import Bottle, request
 
 from db import Item, rds
 
@@ -13,9 +13,15 @@ app = Bottle()
 def my_json():
     return json.dumps({'hello': 'world'})
 
-@app.route('/redis')
-def my_redis():
+
+@app.route('/get')
+def my_redis_get():
     return rds.get('mydata')
+
+
+@app.route('/set')
+def my_redis_set():
+    return str(rds.set('uid', request.headers.get('X-Request-Id')))
 
 
 @app.route('/select')

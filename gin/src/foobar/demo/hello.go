@@ -105,11 +105,20 @@ func main() {
 		})
 	})
 
-	router.GET("/redis", func(c *gin.Context) {
+	router.GET("/get", func(c *gin.Context) {
 		rds := redisPool.Get()
 		defer rds.Close()
 
 		value, _ := redis.String(rds.Do("GET", "mydata"))
+
+		c.String(200, value)
+	})
+
+	router.GET("/set", func(c *gin.Context) {
+		rds := redisPool.Get()
+		defer rds.Close()
+
+		value, _ := redis.String(rds.Do("SET", "uid", c.GetHeader("X-Request-Id")))
 
 		c.String(200, value)
 	})

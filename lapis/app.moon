@@ -16,9 +16,13 @@ class extends lapis.Application
   '/json': =>
     json: { hello: 'world' }
 
-  '/redis': =>
+  '/get': =>
     rds = get_redis!
     render: false, layout: false, rds\get 'mydata'
+
+  '/set': =>
+    rds = get_redis!
+    render: false, layout: false, rds\set 'uid', ngx.var.request_id
 
   '/mc_set': =>
     mc = get_memcached!

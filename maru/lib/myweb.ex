@@ -39,6 +39,8 @@ defmodule Myweb.Apiv1 do
   alias Myweb.Repo
   alias Myweb.Item
 
+  alias Plug.Conn
+
   use Maru.Router
   version 'v1'
 
@@ -46,8 +48,13 @@ defmodule Myweb.Apiv1 do
     json(conn, %{hello: :world})
   end
 
-  get "/redis" do
+  get "/get" do
     {_, v} = RedisPool.q({:global, :rds}, ["GET", "mydata"])
+    text(conn, v)
+  end
+
+  get "/set" do
+    {_, v} = RedisPool.q({:global, :rds}, ["SET", "uid", Conn.get_req_header(conn, "x-request-id")])
     text(conn, v)
   end
 

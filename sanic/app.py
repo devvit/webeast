@@ -44,10 +44,17 @@ async def test_json(request):
     return response.json({'hello': 'world'})
 
 
-@app.route('/redis')
-async def test_redis(request):
+@app.route('/get')
+async def test_redis_get(request):
     async with request.app.redis_pool.get() as redis:
         val = await redis.get('mydata')
+        return response.text(val)
+
+
+@app.route('/set')
+async def test_redis_set(request):
+    async with request.app.redis_pool.get() as redis:
+        val = await redis.set('uid', request.headers.get('X-Request-Id'))
         return response.text(val)
 
 
@@ -68,10 +75,10 @@ if __name__ == '__main__':
     usock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     usock.bind('/tmp/test.sock')
     app.run(
-        # sock=usock,
+        sock=usock,
         debug=False,
         log_config=None,
-        workers=2,
-        host='0.0.0.0',
-        port=3000
+        workers=4,
+        host=None,
+        port=None
     )
