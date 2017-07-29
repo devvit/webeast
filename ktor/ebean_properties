@@ -1,6 +1,0 @@
-datasource.pg.username=foo
-datasource.pg.password=
-datasource.pg.databaseUrl=jdbc:postgresql://localhost:5432/testdb
-datasource.pg.databaseDriver=org.postgresql.Driver
-datasource.pg.capturestacktrace=true
-datasource.pg.maxStackTraceSize=50
