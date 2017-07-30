@@ -6,8 +6,8 @@ from peewee import Model, CharField, PostgresqlDatabase
 # MySQLDatabase
 
 # db = MySQLDatabase('testdb', host='localhost', user='root', password='')
-db = PostgresqlDatabase('testdb', host='localhost')
-rds = redis.Redis(decode_responses=True)
+db = PostgresqlDatabase('testdb', host='/tmp')
+rds = redis.Redis(unix_socket_path='/tmp/redis.sock', decode_responses=True)
 
 
 class Item(Model):
