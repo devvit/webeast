@@ -12,7 +12,7 @@ from sanic import response
 app = Sanic(__name__)
 db = peewee_async.PooledPostgresqlDatabase(
     'testdb',
-    host='localhost',
+    host='/tmp',
     autorollback=True,
     max_connections=5
 )
@@ -31,7 +31,7 @@ class Item(peewee.Model):
 @app.listener('before_server_start')
 async def before_server_start(app, loop):
     app.redis_pool = await aioredis.create_pool(
-        ('localhost', 6379),
+        '/tmp/redis.sock',
         encoding='utf-8',
         minsize=1,
         maxsize=5,

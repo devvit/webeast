@@ -10,7 +10,6 @@ config {'development', 'production', 'test'}, ->
     database 'testdb'
 
 config 'development', ->
-  port 9090
   num_workers 1
   daemon 'off'
   mysql ->
@@ -19,10 +18,9 @@ config 'development', ->
     database 'testdb'
 
 config 'production', ->
-  port 9090
   num_workers 2
   daemon 'off'
   code_cache 'on'
 
 config 'test', ->
-  port 9090
+  code_cache 'off'
