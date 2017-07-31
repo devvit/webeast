@@ -78,7 +78,7 @@ if __name__ == '__main__':
         sock=usock,
         debug=False,
         log_config=None,
-        workers=4,
+        workers=2,
         host=None,
         port=None
     )

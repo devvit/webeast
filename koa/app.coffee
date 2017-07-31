@@ -13,7 +13,9 @@ Sequelize = require 'sequelize'
 
 rpool = require '@npmcorp/redis-pool'
 
-sequelize = new Sequelize 'postgres://localhost/testdb', {
+sequelize = new Sequelize 'testdb', null, null, {
+  host: '/tmp',
+  dialect: 'postgresql',
   logging: false,
   pool: {
     max: 5,
