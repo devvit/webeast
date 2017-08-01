@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	// "github.com/bradfitz/gomemcache/memcache"
+	"github.com/buaazp/fasthttprouter"
+	"github.com/fasthttp-contrib/render"
 	"github.com/garyburd/redigo/redis"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
-	"github.com/gramework/gramework"
 	_ "github.com/lib/pq"
 	"github.com/valyala/fasthttp"
 	"os"
@@ -62,44 +62,45 @@ func main() {
 	engine.SetMaxOpenConns(10)
 	engine.SetMaxIdleConns(10)
 
-	app := gramework.New()
+	router := fasthttprouter.New()
+	r := render.New()
 
-	app.GET("/json", func(c *gramework.Context) {
-		c.JSON(map[string]string{
+	router.GET("/json", func(ctx *fasthttp.RequestCtx) {
+		r.JSON(ctx, fasthttp.StatusOK, map[string]string{
 			"hello": "world",
 		})
 	})
 
-	app.GET("/get", func(c *gramework.Context) {
+	router.GET("/get", func(ctx *fasthttp.RequestCtx) {
 		rds := redisPool.Get()
 		defer rds.Close()
 
 		value, _ := redis.String(rds.Do("GET", "mydata"))
 
-		c.WriteString(value)
+		r.Text(ctx, fasthttp.StatusOK, value)
 	})
 
-	app.GET("/set", func(c *gramework.Context) {
+	router.GET("/set", func(ctx *fasthttp.RequestCtx) {
 		rds := redisPool.Get()
 		defer rds.Close()
 
-		value, _ := redis.String(rds.Do("SET", "uid", c.Request.Header.Peek("X-Request-Id")))
+		value, _ := redis.String(rds.Do("SET", "uid", ctx.Request.Header.Peek("X-Request-Id")))
 
-		c.WriteString(value)
+		r.Text(ctx, fasthttp.StatusOK, value)
 	})
 
-	app.GET("/select", func(c *gramework.Context) {
+	router.GET("/select", func(ctx *fasthttp.RequestCtx) {
 		item := Item{}
 		has, _ := engine.Where("id = ?", 1).Get(&item)
 		if has {
-			c.JSON(map[string]interface{}{
+			r.JSON(ctx, fasthttp.StatusOK, map[string]interface{}{
 				"id":    item.Id,
 				"title": item.Title,
 			})
 		}
 	})
 
-	app.GET("/update", func(c *gramework.Context) {
+	router.GET("/update", func(ctx *fasthttp.RequestCtx) {
 		item := Item{}
 		has, _ := engine.Where("id = ?", 1).Get(&item)
 		if has {
@@ -109,7 +110,7 @@ func main() {
 			if err != nil {
 				fmt.Println(err)
 			} else {
-				c.JSON(map[string]interface{}{
+				r.JSON(ctx, fasthttp.StatusOK, map[string]interface{}{
 					"id":    item.Id,
 					"title": item.Title,
 				})
@@ -117,13 +118,13 @@ func main() {
 		}
 	})
 
+	s := fasthttp.Server{
+		Handler: router.Handler,
+	}
 	port, is_port := os.LookupEnv("PORT")
 	if is_port {
-		app.ListenAndServe(port)
+		s.ListenAndServe(port)
 	} else {
-		s := fasthttp.Server{
-			Handler: app.Handler(),
-		}
-		s.ListenAndServeUNIX("/tmp/test.sock", os.ModeSocket | 0777)
+		s.ListenAndServeUNIX("/tmp/test.sock", os.ModeSocket|0777)
 	}
 }
