@@ -49,7 +49,7 @@ func main() {
 	db := pg.Connect(&pg.Options{
 		Network:     "unix",
 		Addr:        "/tmp/.s.PGSQL.5432",
-		User:        "foo",
+		User:        os.Getenv("USER"),
 		Database:    "testdb",
 		PoolSize:    10,
 		IdleTimeout: 3600 * time.Second,
