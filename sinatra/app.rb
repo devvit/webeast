@@ -5,7 +5,8 @@
 ActiveRecord::Base.establish_connection({
   adapter: 'postgresql',
   database: 'testdb',
-  host: '/tmp'
+  host: '/tmp',
+	pool: 10
 })
 
 # LockAndCache.storage = Redis.new
