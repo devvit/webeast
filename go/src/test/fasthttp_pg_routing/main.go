@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/fasthttp-contrib/render"
-	"github.com/garyburd/redigo/redis"
 	"github.com/go-pg/pg"
+	"github.com/go-redis/redis"
 	"github.com/qiangxue/fasthttp-routing"
 	"github.com/valyala/fasthttp"
 	"os"
@@ -25,26 +25,14 @@ type Item struct {
 	Title string
 }
 
-func SetupRedis() *redis.Pool {
-	return redis.NewPool(func() (redis.Conn, error) {
-		c, err := redis.Dial("unix", "/tmp/redis.sock")
-
-		if err != nil {
-			panic("error")
-		}
-
-		return c, err
-	}, 10)
-}
-
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
-	redisPool := SetupRedis()
-	redisPool.Wait = true
-	redisPool.IdleTimeout = 240 * time.Second
-	redisPool.MaxActive = 10
-	defer redisPool.Close()
+	rds := redis.NewClient(&redis.Options{
+		Network:  "unix",
+		Addr:     "/tmp/redis.sock",
+		PoolSize: 10,
+	})
 
 	db := pg.Connect(&pg.Options{
 		Network:     "unix",
@@ -78,10 +66,7 @@ func main() {
 	})
 
 	router.Get("/get", func(ctx *routing.Context) error {
-		rds := redisPool.Get()
-		defer rds.Close()
-
-		value, _ := redis.String(rds.Do("GET", "mydata"))
+		value, _ := rds.Get("mydata").Result()
 
 		r.Text(ctx.RequestCtx, fasthttp.StatusOK, value)
 
@@ -89,10 +74,7 @@ func main() {
 	})
 
 	router.Get("/set", func(ctx *routing.Context) error {
-		rds := redisPool.Get()
-		defer rds.Close()
-
-		value, _ := redis.String(rds.Do("SET", "uid", ctx.RequestCtx.Request.Header.Peek("X-Request-Id")))
+		value, _ := rds.Set("uid", ctx.RequestCtx.Request.Header.Peek("X-Request-Id"), 0).Result()
 
 		r.Text(ctx.RequestCtx, fasthttp.StatusOK, value)
 
