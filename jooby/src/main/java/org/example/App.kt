@@ -3,8 +3,6 @@
 package org.example
 
 import org.jooby.*
-import org.jooby.jedis.*
-import org.jooby.ebean.*
 
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -51,7 +49,6 @@ class App {
         @JvmStatic fun main(args: Array<String>) {
 
             run(*args) {
-                use(Redis::class)
 
                 val ds = HikariDataSource()
                 // ds.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb")
@@ -74,18 +71,26 @@ class App {
 
                 val server = EbeanServerFactory.create(config)
 
+                // redis
+                val jedisCfg = JedisPoolConfig()
+                jedisCfg.setMaxIdle(10)
+                jedisCfg.setMaxTotal(10)
+                jedisCfg.setMinIdle(10)
+                jedisCfg.setBlockWhenExhausted(true)
+                val jedisPool = JedisPool(jedisCfg, "localhost")
+
                 get("/json") {
                     jsonObject("hello" to "world").toString()
                 }
 
                 get("/get") {
-                    (require(Jedis::class)).use { jedis ->
+                    (jedisPool.getResource()).use { jedis ->
                         jedis.get("mydata")
                     }
                 }
 
                 get("/set") { req ->
-                    (require(Jedis::class)).use { jedis ->
+                    (jedisPool.getResource()).use { jedis ->
                         jedis.set("uid", req.header("X-Request-Id").value())
                     }
                 }
