@@ -9,7 +9,7 @@ import peewee_async
 from sanic import Sanic
 from sanic import response
 
-app = Sanic(__name__)
+app = Sanic(__name__, log_config=None)
 db = peewee_async.PooledPostgresqlDatabase(
     'testdb',
     host='/tmp',
