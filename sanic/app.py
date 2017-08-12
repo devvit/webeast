@@ -13,6 +13,7 @@ app = Sanic(__name__, log_config=None)
 db = peewee_async.PooledPostgresqlDatabase(
     'testdb',
     host='/tmp',
+    autocommit=True,
     autorollback=True,
     max_connections=5
 )
