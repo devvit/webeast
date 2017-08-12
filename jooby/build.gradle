@@ -66,7 +66,7 @@ dependencies {
   compile 'com.zaxxer:HikariCP:2.6.3'
 
   compile "org.jooby:jooby:$jooby_version"
-  compile "org.jooby:jooby-undertow:$jooby_version"
+  compile "org.jooby:jooby-netty:$jooby_version"
   compile "org.jooby:jooby-lang-kotlin:$jooby_version"
 }
 
