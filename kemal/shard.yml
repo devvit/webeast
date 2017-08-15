@@ -1,0 +1,30 @@
+name: bang
+version: 0.1.0
+
+authors:
+  - Your Name <you@example.com>
+
+targets:
+  bang:
+    main: src/bang.cr
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+    branch: master
+  pg:
+    github: will/crystal-pg
+  active_record:
+    github: waterlink/active_record.cr
+  postgres_adapter:
+    github: waterlink/postgres_adapter.cr
+  jennifer:
+    github: imdrasil/jennifer.cr
+  crecto:
+    github: fridgerator/crecto
+  redisoid:
+    github: kostya/redisoid
+
+crystal: 0.23.1
+
+license: MIT
