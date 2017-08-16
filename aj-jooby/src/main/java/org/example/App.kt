@@ -17,27 +17,28 @@ class App {
     companion object {
         @JvmStatic fun main(args: Array<String>) {
 
-            val ds = HikariDataSource()
-            // ds.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb")
-            ds.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource")
-            // ds.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource")
-            // ds.setServerName("localhost")
-            // ds.setPortNumber(5432)
-            ds.addDataSourceProperty("databaseName", "testdb")
-            ds.addDataSourceProperty("sslMode", "disable")
-            ds.setUsername(System.getenv()["USER"])
-            ds.setPassword("")
-            ds.setMaximumPoolSize(10)
-
-            // redis
-            val jedisCfg = JedisPoolConfig()
-            jedisCfg.setMaxIdle(10)
-            jedisCfg.setMaxTotal(10)
-            jedisCfg.setMinIdle(10)
-            jedisCfg.setBlockWhenExhausted(true)
-            val jedisPool = JedisPool(jedisCfg, "localhost")
-
             run(*args) {
+                val ds = HikariDataSource()
+                // ds.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb")
+                ds.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource")
+                // ds.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource")
+                // ds.setServerName("localhost")
+                // ds.setPortNumber(5432)
+                ds.addDataSourceProperty("databaseName", "testdb")
+                ds.addDataSourceProperty("sslMode", "disable")
+                ds.setUsername(System.getenv()["USER"])
+                ds.setPassword("")
+                ds.setMaximumPoolSize(10)
+
+                // redis
+                val jedisCfg = JedisPoolConfig()
+                jedisCfg.setMaxIdle(10)
+                jedisCfg.setMaxTotal(10)
+                jedisCfg.setMinIdle(10)
+                jedisCfg.setBlockWhenExhausted(true)
+                val jedisPool = JedisPool(jedisCfg, "localhost")
+
+
                 before(Route.Before({ _, _ ->
                     Base.open(ds)
                     // println("++++++ ++++++")
