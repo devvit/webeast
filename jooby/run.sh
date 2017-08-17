@@ -1,1 +1,1 @@
-java -jar ./build/libs/jooby.jar prod
+java -jar ./build/libs/app.jar prod

@@ -1,1 +1,1 @@
-java -jar ./build/libs/spark.jar prod
+java -jar ./build/libs/app.jar prod

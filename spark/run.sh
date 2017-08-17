@@ -1,1 +1,1 @@
-PORT=3000 java -jar ./build/libs/spark.jar
+PORT=3000 java -jar ./build/libs/app.jar
