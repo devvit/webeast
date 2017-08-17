@@ -57,7 +57,7 @@ class App {
                     }
 
                     get("/json") {
-                        println("000000")
+                        // println("000000")
                         call.respondText("hello ktor\n", ContentType.Text.Html)
                     }
 
