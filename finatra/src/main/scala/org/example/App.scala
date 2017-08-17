@@ -22,7 +22,7 @@ class MyController extends Controller {
 
   val rds = new RedisClientPool("localhost", 6379)
 
-  get("/hi") { request: Request =>
+  get("/json") { request: Request =>
     // println("000000")
     "hello, finatra\n"
   }
