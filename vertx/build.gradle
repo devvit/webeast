@@ -47,7 +47,7 @@ dependencies {
 
   compile 'com.zaxxer:HikariCP:2.6.3'
 
-  // compile 'org.postgresql:postgresql:42.1.1'
+  compile 'org.postgresql:postgresql:42.1.1'
 
   compile 'com.github.salomonbrys.kotson:kotson:2.5.0'
 

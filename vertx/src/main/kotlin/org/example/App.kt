@@ -38,7 +38,7 @@ class App : AbstractVerticle() {
 
         vertx.createHttpServer()
         .requestHandler { router.accept(it) }
-        .listen(config().getInteger("http.port", 8080)) { result ->
+        .listen(3000) { result ->
             if (result.succeeded()) {
                 startFuture?.complete()
             } else {
