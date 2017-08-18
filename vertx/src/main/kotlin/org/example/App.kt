@@ -78,6 +78,7 @@ class App : AbstractVerticle() {
                 val rs = r.result().rows
                 val item = rs[0]
                 val v = jsonObject("title" to item.getString("title"), "id" to item.getInteger("id"))
+                conn.close()
                 req.response().end(v.toString())
             })
         })
@@ -93,6 +94,7 @@ class App : AbstractVerticle() {
                 conn.updateWithParams("update items set title = ? where id = 1", json { array(item.getString("title").reversed()) }, { effect ->
 
                     val v = jsonObject("title" to item.getString("title"), "id" to item.getInteger("id"), "result" to effect.result().updated)
+                    conn.close()
                     req.response().end(v.toString())
 
                 })
