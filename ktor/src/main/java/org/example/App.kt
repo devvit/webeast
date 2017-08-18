@@ -51,13 +51,15 @@ class App {
             val server = embeddedServer(Netty, 3000) {
                 routing {
 
+                    /*
                     intercept(ApplicationCallPipeline.Infrastructure) {
-                        // println("++++++")
+                        println("++++++")
                         Base.open(ds)
-                        async (CommonPool) { proceed() }.await()
+                        proceed()
                         Base.close()
-                        // println("------")
+                        println("------")
                     }
+                    */
 
                     get("/json") {
                         // println("000000")
@@ -77,15 +79,21 @@ class App {
                     }
 
                     get("/select") {
+                        Base.open(ds)
                         val item = Item.fetch(1)
-                        call.respondText(item.toJson(false, "id", "title"), ContentType.Application.Json)
+                        val v = item.toJson(false, "id", "title")
+                        Base.close()
+                        call.respondText(v, ContentType.Application.Json)
                     }
 
                     get("/update") {
+                        Base.open(ds)
                         val item = Item.fetch(1)
                         item.setTitle(item.get("title").toString().reversed())
                         item.save()
-                        call.respondText(item.toJson(false, "id", "title"), ContentType.Application.Json)
+                        val v = item.toJson(false, "id", "title")
+                        Base.close()
+                        call.respondText(v, ContentType.Application.Json)
                     }
                 }
             }
