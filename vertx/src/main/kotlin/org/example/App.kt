@@ -26,8 +26,9 @@ class App : AbstractVerticle() {
         mydb = JDBCClient.createShared(vertx, json {
             obj(
                     "provider_class" to "io.vertx.ext.jdbc.spi.impl.HikariCPDataSourceProvider",
-                    "jdbcUrl" to "jdbc:postgresql://localhost:5432/testdb",
-                    "max_pool_size" to 10
+                    "jdbcUrl" to "jdbc:postgresql://localhost/testdb",
+                    "max_pool_size" to 10,
+                    "maximumPoolSize" to 10
             )
         })
 
