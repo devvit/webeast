@@ -20,6 +20,9 @@ import org.jetbrains.ktor.netty.*
 import org.jetbrains.ktor.response.*
 import org.jetbrains.ktor.routing.*
 
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.*
+
 class App {
 
     companion object {
@@ -51,7 +54,7 @@ class App {
                     intercept(ApplicationCallPipeline.Infrastructure) {
                         // println("++++++")
                         Base.open(ds)
-                        proceed()
+                        async (CommonPool) { proceed() }.await()
                         Base.close()
                         // println("------")
                     }
