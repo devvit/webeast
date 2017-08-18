@@ -11,8 +11,6 @@ import com.github.salomonbrys.kotson.*
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 
-import org.javalite.activejdbc.Base
-
 import org.http4k.core.Filter
 import org.http4k.core.HttpHandler
 import org.http4k.core.Method.GET
@@ -26,6 +24,9 @@ import org.http4k.routing.path
 import org.http4k.routing.routes
 import org.http4k.server.Netty
 import org.http4k.server.asServer
+import org.http4k.filter.ServerFilters
+
+import org.javalite.activejdbc.Base
 
 class App {
 
@@ -52,7 +53,7 @@ class App {
             jedisCfg.setBlockWhenExhausted(true)
             val jedisPool = JedisPool(jedisCfg, "localhost")
 
-            val timingFilter = Filter {
+            val myFilter = Filter {
                 next: HttpHandler -> { request: Request ->
                     Base.open(ds)
                     val response = next(request)
@@ -88,7 +89,7 @@ class App {
                     }
             )
 
-            app.asServer(Netty(3000)).start()
+            myFilter.then(app).asServer(Netty(3000)).start()
         }
     }
 
