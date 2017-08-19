@@ -4,8 +4,12 @@ require 'bundler'
 
 Bundler.require :default, ENV['RACK_ENV'] || 'development'
 
-# Thin::Logging.silent = true
+require './db'
+require './sinatra_app'
+require './roda_app'
 
-require './app'
-
-run App
+if ENV['APP'] == roda
+  run RodaApp.freeze.app
+else
+  run SinatraApp
+end
