@@ -66,7 +66,7 @@ class App : AbstractVerticle() {
     }
 
     val redisSet = Handler<RoutingContext> { req ->
-        rds.set("uid", "", { r ->
+        rds.set("uid", req.request().getHeader("X-Request-Id"), { r ->
             req.response().end("$(r.succeeded())")
         })
     }
