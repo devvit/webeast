@@ -55,23 +55,23 @@ class App : AbstractVerticle() {
         get("/update").handler(handleUpdate)
     }
 
-    val handlerRoot = Handler<RoutingContext> { req ->
-        req.response().end(jsonObject("hello" to "world").toString())
+    val handlerRoot = Handler<RoutingContext> { ctx ->
+        ctx.response().end(jsonObject("hello" to "world").toString())
     }
 
-    val redisGet = Handler<RoutingContext> { req ->
+    val redisGet = Handler<RoutingContext> { ctx ->
         rds.get("mydata", { r ->
-            req.response().end(r.result())
+            ctx.response().end(r.result())
         })
     }
 
-    val redisSet = Handler<RoutingContext> { req ->
-        rds.set("uid", req.request().getHeader("X-Request-Id"), { r ->
-            req.response().end("$(r.succeeded())")
+    val redisSet = Handler<RoutingContext> { ctx ->
+        rds.set("uid", ctx.request().getHeader("X-Request-Id"), { r ->
+            ctx.response().end("$(r.succeeded())")
         })
     }
 
-    val handleSelect = Handler<RoutingContext> { req ->
+    val handleSelect = Handler<RoutingContext> { ctx ->
         mydb.getConnection({ res  ->
             val conn = res.result()
             conn.query("SELECT * FROM items where id = 1", { r ->
@@ -79,12 +79,12 @@ class App : AbstractVerticle() {
                 val item = rs[0]
                 val v = jsonObject("title" to item.getString("title"), "id" to item.getInteger("id"))
                 conn.close()
-                req.response().end(v.toString())
+                ctx.response().end(v.toString())
             })
         })
     }
 
-    val handleUpdate = Handler<RoutingContext> { req ->
+    val handleUpdate = Handler<RoutingContext> { ctx ->
         mydb.getConnection({ res  ->
             val conn = res.result()
             conn.query("SELECT * FROM items where id = 1", { r ->
@@ -95,7 +95,7 @@ class App : AbstractVerticle() {
 
                     val v = jsonObject("title" to item.getString("title"), "id" to item.getInteger("id"), "result" to effect.result().updated)
                     conn.close()
-                    req.response().end(v.toString())
+                    ctx.response().end(v.toString())
 
                 })
             })
