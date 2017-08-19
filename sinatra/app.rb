@@ -2,11 +2,13 @@
 
 # ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'])
 
+POOL_SIZE = 10
+
 ActiveRecord::Base.establish_connection({
   adapter: 'postgresql',
   database: 'testdb',
   host: '/tmp',
-	pool: 10
+  pool: POOL_SIZE
 })
 
 # LockAndCache.storage = Redis.new
@@ -16,7 +18,7 @@ class Item < ActiveRecord::Base
 end
 
 class App < Sinatra::Base
-  REDIS = ConnectionPool::Wrapper.new(size: 10, timeout: 3) { Redis.connect path: '/tmp/redis.sock', driver: :hiredis }
+  REDIS = ConnectionPool::Wrapper.new(size: POOL_SIZE, timeout: 3) { Redis.connect path: '/tmp/redis.sock', driver: :hiredis }
   # KACHE = ActiveSupport::Cache.lookup_store :dalli_store, race_condition_ttl: 10
 
   configure do
