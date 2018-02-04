@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'sinatra', '1.4.8'
+gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'roda'
 
@@ -16,9 +16,9 @@ gem 'redis'
 # gem 'memcached_store'
 # gem 'lock_and_cache'
 gem 'rest-client'
-gem 'pg'
+gem 'pg', '0.21.0'
 # gem 'rhebok'
-# gem 'puma'
+gem 'puma'
 # gem 'racksh'
 # gem 'redis-activesupport'
 # gem 'thin'

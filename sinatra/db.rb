@@ -9,6 +9,6 @@ ActiveRecord::Base.establish_connection({
   pool: POOL_SIZE
 })
 
-REDIS = ConnectionPool::Wrapper.new(size: POOL_SIZE, timeout: 3) { Redis.connect path: '/tmp/redis.sock', driver: :hiredis }
+REDIS = ConnectionPool::Wrapper.new(size: POOL_SIZE, timeout: 3) { Redis.new path: '/tmp/redis.sock', driver: :hiredis }
 
 class Item < ActiveRecord::Base; end

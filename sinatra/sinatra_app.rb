@@ -12,6 +12,10 @@ class SinatraApp < Sinatra::Base
     disable :protection
   end
 
+  after do
+    ActiveRecord::Base.clear_active_connections!
+  end
+
   get '/json' do
     { hello: 'world' }.to_json
   end
@@ -41,7 +45,7 @@ class SinatraApp < Sinatra::Base
   end
 
   get '/lock' do
-    KACHE.fetch 'wtf', expires_in: 20 {
+    KACHE.fetch('wtf', expires_in: 20) {
       for i in (0..500000000) do
 
       end

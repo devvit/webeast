@@ -12,4 +12,5 @@ redis
 sanic
 ujson
 uvloop
+uwsgi
 requests

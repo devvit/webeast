@@ -6,9 +6,18 @@ import requests
 
 from flask import Flask, request
 
-from db import Item, rds
+from db import db_wrapper, Item, rds, pool_size
 
 app = Flask(__name__)
+app.config['DATABASE'] = {
+    'name': 'testdb',
+    'engine': 'playhouse.pool.PooledPostgresqlDatabase',
+    'host': '/tmp',
+    'max_connections': pool_size,
+    'autocommit': True,
+    'autorollback': True
+}
+db_wrapper.init_app(app)
 
 
 @app.route('/json')

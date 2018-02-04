@@ -1,6 +1,13 @@
 #
 
 class RodaApp < Roda
+  plugin :hooks
+  plugin :json
+
+  after do
+    ActiveRecord::Base.clear_active_connections!
+  end
+
   route do |r|
 
     r.get 'json' do
