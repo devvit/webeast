@@ -55,8 +55,8 @@ class SinatraApp < Sinatra::Base
   end
 
   get '/rest' do
-    s = RestClient.get("http://twitter.com")
-    {size: s.body.size}.to_json
+    s = HTTP.get("http://twitter.com")
+    {size: s.to_s.size}.to_json
   end
 
   get '/select' do
@@ -71,5 +71,9 @@ class SinatraApp < Sinatra::Base
     item.save
 
     item.to_json
+  end
+
+  get '/gems' do
+    Gem.loaded_specs.keys.to_json
   end
 end
