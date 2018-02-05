@@ -4,7 +4,7 @@ bottle
 Flask
 gunicorn
 meinheld
-peewee
+peewee==2.10.2
 peewee-async
 psycopg2
 PyMySQL
