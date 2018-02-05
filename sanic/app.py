@@ -10,12 +10,13 @@ from sanic import Sanic
 from sanic import response
 
 app = Sanic(__name__, log_config=None)
+app.config['KEEP_ALIVE_TIMEOUT'] = 30
 db = peewee_async.PooledPostgresqlDatabase(
     'testdb',
     host='/tmp',
     autocommit=True,
     autorollback=True,
-    max_connections=5
+    max_connections=10
 )
 db.set_allow_sync(False)
 objs = peewee_async.Manager(db)
@@ -31,11 +32,11 @@ class Item(peewee.Model):
 
 @app.listener('before_server_start')
 async def before_server_start(app, loop):
-    app.redis_pool = await aioredis.create_pool(
+    app.redis_pool = await aioredis.create_redis_pool(
         '/tmp/redis.sock',
         encoding='utf-8',
         minsize=1,
-        maxsize=5,
+        maxsize=10,
         loop=loop
     )
 
@@ -47,16 +48,14 @@ async def test_json(request):
 
 @app.route('/get')
 async def test_redis_get(request):
-    async with request.app.redis_pool.get() as redis:
-        val = await redis.get('mydata')
-        return response.text(val)
+    val = await request.app.redis_pool.get('mydata')
+    return response.text(val)
 
 
 @app.route('/set')
 async def test_redis_set(request):
-    async with request.app.redis_pool.get() as redis:
-        val = await redis.set('uid', request.headers.get('X-Request-Id'))
-        return response.text(val)
+    val = await request.app.redis_pool.set('uid', request.headers.get('X-Request-Id'))
+    return response.text(val)
 
 
 @app.route('/select')
@@ -78,7 +77,8 @@ if __name__ == '__main__':
     app.run(
         sock=usock,
         debug=False,
-        log_config=None,
+        access_log=False,
+        # log_config=None,
         workers=2,
         host=None,
         port=None
