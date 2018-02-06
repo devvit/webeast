@@ -49,13 +49,13 @@ defmodule Myweb.Apiv1 do
   end
 
   get "/get" do
-    {_, v} = RedisPool.q({:global, :rds}, ["GET", "mydata"])
-    text(conn, v)
+    # {_, v} = RedisPool.q({:global, :rds}, ["GET", "mydata"])
+    text(conn, "hello")
   end
 
   get "/set" do
-    {_, v} = RedisPool.q({:global, :rds}, ["SET", "uid", Conn.get_req_header(conn, "x-request-id")])
-    text(conn, v)
+    # {_, v} = RedisPool.q({:global, :rds}, ["SET", "uid", Conn.get_req_header(conn, "x-request-id")])
+    text(conn, "world")
   end
 
   get "/ets_set" do

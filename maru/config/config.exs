@@ -15,9 +15,9 @@ config :myweb, ecto_repos: [Myweb.Repo]
 
 config :logger, level: :error
 
-config :redis_pool, :pools, [
-  rds: [size: 10, host: 'localhost', port: 6379]
-]
+# config :redis_pool, :pools, [
+# rds: [size: 10, host: 'localhost', port: 6379]
+# ]
 
 config :memcachir, hosts: "localhost", pool: [size: 10, max_overflow: 10, strategy: :lifo]
 

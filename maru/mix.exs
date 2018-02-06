@@ -16,7 +16,7 @@ defmodule Myweb.Mixfile do
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
     # [extra_applications: [:logger]]
-    [application: [:maru, :redis_pool, :ecto, :postgrex, :httpotion, :cachex], mod: {Myweb, []}]
+    [application: [:maru, :ecto, :postgrex, :httpotion, :cachex], mod: {Myweb, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -35,8 +35,8 @@ defmodule Myweb.Mixfile do
       {:ecto, ''},
       {:postgrex, ''},
       {:httpotion, ''},
-      {:eredis, git: "https://github.com/wooga/eredis", override: true},
-      {:redis_pool, git: "https://github.com/le0pard/redis_pool"},
+      # {:eredis, git: "https://github.com/wooga/eredis", override: true},
+      # {:redis_pool, git: "https://github.com/le0pard/redis_pool"},
       {:cachex, ''},
       {:memcachir, git: "https://github.com/peillis/memcachir"}
     ]
