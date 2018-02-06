@@ -1,6 +1,6 @@
 #
 
-POOL_SIZE = 10
+POOL_SIZE = 20
 
 ActiveRecord::Base.establish_connection({
   adapter: 'postgresql',
