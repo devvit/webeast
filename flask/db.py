@@ -7,7 +7,7 @@ from playhouse.flask_utils import FlaskDB
 # from playhouse.pool import PooledPostgresqlExtDatabase
 # MySQLDatabase
 
-pool_size = 10
+pool_size = 20
 # db = MySQLDatabase('testdb', host='localhost', user='root', password='')
 # db = PooledPostgresqlExtDatabase('testdb', host='/tmp', autocommit=True, autorollback=True, max_connections=pool_size)
 db_wrapper = FlaskDB()
