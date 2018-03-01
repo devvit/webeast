@@ -2,7 +2,7 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :myweb, Myweb.Repo,
+config :myweb, Myweb.Repo, [
   adapter: Ecto.Adapters.Postgres,
   database: "testdb",
   username: "foo",
@@ -10,14 +10,15 @@ config :myweb, Myweb.Repo,
   hostname: "localhost",
   loggers: [],
   pool_size: 10
+]
 
 config :myweb, ecto_repos: [Myweb.Repo]
 
 config :logger, level: :error
 
-# config :redis_pool, :pools, [
-# rds: [size: 10, host: 'localhost', port: 6379]
-# ]
+config :redis_pool, :pools, [
+  rds: [size: 10, host: '127.0.0.1', port: 6379]
+]
 
 config :memcachir, hosts: "localhost", pool: [size: 10, max_overflow: 10, strategy: :lifo]
 
