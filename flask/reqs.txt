@@ -1,4 +1,7 @@
 aiopg
+aiohttp
+cchardet
+aiodns
 aioredis
 bottle
 Flask
