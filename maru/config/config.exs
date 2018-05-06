@@ -20,7 +20,7 @@ config :redis_pool, :pools, [
   rds: [size: 10, host: '127.0.0.1', port: 6379]
 ]
 
-config :memcachir, hosts: "localhost", pool: [size: 10, max_overflow: 10, strategy: :lifo]
+# config :memcachir, hosts: "localhost", pool: [size: 10, max_overflow: 10, strategy: :lifo]
 
 config :maru, Myweb.Apiv1, http: [
   port: 3000,
