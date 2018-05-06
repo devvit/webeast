@@ -9,8 +9,8 @@ group 'org.example'
  */
 
 buildscript {
-  ext.kotlin_version = '1.1.4'
-  ext.vertx_version = '3.4.2'
+  ext.kotlin_version = '1.2.41'
+  ext.vertx_version = '3.5.1'
 
   repositories {
     mavenCentral()
@@ -45,9 +45,9 @@ dependencies {
   compile "io.vertx:vertx-jdbc-client:$vertx_version"
   compile "io.vertx:vertx-mysql-postgresql-client:$vertx_version"
 
-  compile 'com.zaxxer:HikariCP:2.6.3'
+  compile 'com.zaxxer:HikariCP:3.1.0'
 
-  compile 'org.postgresql:postgresql:42.1.1'
+  compile 'org.postgresql:postgresql:42.2.2'
 
   compile 'com.github.salomonbrys.kotson:kotson:2.5.0'
 
