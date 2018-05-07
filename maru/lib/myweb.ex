@@ -50,7 +50,7 @@ defmodule Myweb.Apiv1 do
 
   get "/get" do
     {_, v} = RedisPool.q({:global, :rds}, ["GET", "mydata"])
-    text(conn, "hello")
+    text(conn, v)
   end
 
   get "/set" do
