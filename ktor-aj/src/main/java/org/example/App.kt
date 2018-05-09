@@ -13,12 +13,12 @@ import com.zaxxer.hikari.HikariDataSource
 
 import org.javalite.activejdbc.Base
 
-import org.jetbrains.ktor.application.*
-import org.jetbrains.ktor.host.*
-import org.jetbrains.ktor.http.*
-import org.jetbrains.ktor.netty.*
-import org.jetbrains.ktor.response.*
-import org.jetbrains.ktor.routing.*
+import io.ktor.application.*
+import io.ktor.http.*
+import io.ktor.response.*
+import io.ktor.routing.*
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
 
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.*

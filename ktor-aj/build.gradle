@@ -9,8 +9,8 @@ group 'org.example'
  */
 
 buildscript {
-  ext.kotlin_version = '1.1.4'
-  ext.ktor_version = '0.4.0'
+  ext.kotlin_version = '1.2.41'
+  ext.ktor_version = '0.9.2'
 
   repositories {
     mavenCentral()
@@ -55,17 +55,17 @@ dependencies {
 
   compile 'org.javalite:activejdbc:1.4.13'
 
-  compile 'org.postgresql:postgresql:42.1.1'
+  compile 'org.postgresql:postgresql:42.2.2'
 
   compile 'com.github.salomonbrys.kotson:kotson:2.5.0'
   compile 'redis.clients:jedis:2.9.0'
-  compile 'com.zaxxer:HikariCP:2.6.3'
+  compile 'com.zaxxer:HikariCP:3.1.0'
 
   compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-  compile "org.jetbrains.ktor:ktor-core:$ktor_version"
-  compile "org.jetbrains.ktor:ktor-netty:$ktor_version"
+  // compile "io.ktor:ktor-core:$ktor_version"
+  compile "io.ktor:ktor-server-netty:$ktor_version"
 
-  compile 'org.redisson:redisson:3.4.4'
+  // compile 'org.redisson:redisson:3.4.4'
 
   // compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 }
