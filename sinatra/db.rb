@@ -1,5 +1,4 @@
 #
-# test git
 
 POOL_SIZE = 20
 
