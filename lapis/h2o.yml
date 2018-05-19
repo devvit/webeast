@@ -1,0 +1,9 @@
+hosts:
+  "localhost":
+    listen:
+      port: 80
+    paths:
+      "/":
+        proxy.preserve-host: ON
+        # proxy.reverse.url: "http://127.0.0.1:3000/"
+        proxy.reverse.url: "http://[unix:/tmp/test.sock]/"
