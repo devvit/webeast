@@ -5,5 +5,6 @@ hosts:
     paths:
       "/":
         proxy.preserve-host: ON
+        proxy.timeout.io: 60000
         # proxy.reverse.url: "http://127.0.0.1:3000/"
         proxy.reverse.url: "http://[unix:/tmp/test.sock]/"
