@@ -63,13 +63,15 @@ class App {
 
                     get("/json") {
                         // println("000000")
-                        call.respondText("hello ktor\n", ContentType.Text.Html)
+                        call.respondText(jsonObject("hello" to "world").toString(), ContentType.Application.Json)
                     }
 
                     get("/get") {
+                        var result = ""
                         (jedisPool.getResource()).use { jedis ->
-                            call.respondText(jedis.get("mydata"), ContentType.Text.Html)
+                            result = jedis.get("mydata")
                         }
+                        call.respondText(result, ContentType.Text.Html)
                     }
 
                     get("/set") {

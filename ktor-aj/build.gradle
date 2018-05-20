@@ -38,7 +38,6 @@ repositories {
   // You can declare any Maven/Ivy/file repository here.
   jcenter()
   mavenCentral()
-  maven { url 'https://dl.bintray.com/kotlin/kotlin' }
   maven { url 'https://dl.bintray.com/kotlin/ktor' }
 }
 
@@ -61,7 +60,7 @@ dependencies {
   compile 'redis.clients:jedis:2.9.0'
   compile 'com.zaxxer:HikariCP:3.1.0'
 
-  compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+  compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
   // compile "io.ktor:ktor-core:$ktor_version"
   compile "io.ktor:ktor-server-netty:$ktor_version"
 
@@ -80,6 +79,13 @@ kapt {
 compileKotlin {
   kotlinOptions.jvmTarget = "1.8"
 }
+
+kotlin {
+  experimental {
+    coroutines 'enable'
+  }
+}
+
 
 jar {
   manifest {
