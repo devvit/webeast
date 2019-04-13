@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/buaazp/fasthttprouter"
 	"github.com/fasthttp-contrib/render"
-	"github.com/garyburd/redigo/redis"
+	"github.com/gomodule/redigo/redis"
 	"github.com/go-pg/pg"
 	"github.com/valyala/fasthttp"
 	"os"

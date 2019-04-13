@@ -10,6 +10,7 @@ from aiohttp import web
 
 from db import init_redis, objs, Item
 
+
 async def json_handle(request):
     return web.Response(text=json.dumps({ 'hello': 'world' }))
 

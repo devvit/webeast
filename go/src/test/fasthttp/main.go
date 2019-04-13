@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/buaazp/fasthttprouter"
 	"github.com/fasthttp-contrib/render"
-	"github.com/garyburd/redigo/redis"
+	"github.com/gomodule/redigo/redis"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
 	_ "github.com/lib/pq"

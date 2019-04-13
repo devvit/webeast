@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	// "github.com/bradfitz/gomemcache/memcache"
-	"github.com/garyburd/redigo/redis"
+	"github.com/gomodule/redigo/redis"
 	"github.com/gin-gonic/gin"
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
