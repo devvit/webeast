@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/buaazp/fasthttprouter"
 	"github.com/fasthttp-contrib/render"
 	"github.com/go-pg/pg"
 	"github.com/go-redis/redis"
-	"github.com/qiangxue/fasthttp-routing"
 	"github.com/valyala/fasthttp"
 	"os"
 	"runtime"
@@ -54,49 +54,41 @@ func main() {
 		})
 	*/
 
-	router := routing.New()
+	router := fasthttprouter.New()
 	r := render.New()
 
-	router.Get("/json", func(ctx *routing.Context) error {
-		r.JSON(ctx.RequestCtx, fasthttp.StatusOK, map[string]string{
+	router.GET("/json", func(ctx *fasthttp.RequestCtx) {
+		r.JSON(ctx, fasthttp.StatusOK, map[string]string{
 			"hello": "world",
 		})
-
-		return nil
 	})
 
-	router.Get("/get", func(ctx *routing.Context) error {
+	router.GET("/get", func(ctx *fasthttp.RequestCtx) {
 		value, _ := rds.Get("mydata").Result()
 
-		r.Text(ctx.RequestCtx, fasthttp.StatusOK, value)
-
-		return nil
+		r.Text(ctx, fasthttp.StatusOK, value)
 	})
 
-	router.Get("/set", func(ctx *routing.Context) error {
-		value, _ := rds.Set("uid", ctx.RequestCtx.Request.Header.Peek("X-Request-Id"), 0).Result()
+	router.GET("/set", func(ctx *fasthttp.RequestCtx) {
+		value, _ := rds.Set("uid", ctx.Request.Header.Peek("X-Request-Id"), 0).Result()
 
-		r.Text(ctx.RequestCtx, fasthttp.StatusOK, value)
-
-		return nil
+		r.Text(ctx, fasthttp.StatusOK, value)
 	})
 
-	router.Get("/select", func(ctx *routing.Context) error {
+	router.GET("/select", func(ctx *fasthttp.RequestCtx) {
 		item := Item{Id: 1}
 		err := db.Select(&item)
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		r.JSON(ctx.RequestCtx, fasthttp.StatusOK, map[string]interface{}{
+		r.JSON(ctx, fasthttp.StatusOK, map[string]interface{}{
 			"id":    item.Id,
 			"title": item.Title,
 		})
-
-		return nil
 	})
 
-	router.Get("/update", func(ctx *routing.Context) error {
+	router.GET("/update", func(ctx *fasthttp.RequestCtx) {
 		item := Item{Id: 1}
 		err := db.Select(&item)
 		if err != nil {
@@ -110,18 +102,16 @@ func main() {
 			fmt.Println(err)
 		}
 
-		r.JSON(ctx.RequestCtx, fasthttp.StatusOK, map[string]interface{}{
+		r.JSON(ctx, fasthttp.StatusOK, map[string]interface{}{
 			"id":    item.Id,
 			"title": item.Title,
 		})
-
-		return nil
 	})
 
 	fmt.Println("start")
 
 	s := fasthttp.Server{
-		Handler: router.HandleRequest,
+		Handler: router.Handler,
 	}
 	port, is_port := os.LookupEnv("PORT")
 	if is_port {
