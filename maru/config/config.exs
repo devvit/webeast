@@ -8,7 +8,9 @@ config :myweb, Myweb.Repo,
   password: "",
   hostname: "localhost",
   loggers: [],
-  pool_size: 10
+  pool_size: 10,
+  queue_target: 500,
+  queue_interval: 5000
 
 config :myweb, ecto_repos: [Myweb.Repo]
 
