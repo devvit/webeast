@@ -1,7 +1,9 @@
 #
 
 defmodule Myweb.Repo do
-  use Ecto.Repo, otp_app: :myweb
+  use Ecto.Repo,
+    otp_app: :myweb,
+    adapter: Ecto.Adapters.Postgres
 end
 
 defmodule Myweb.Item do
@@ -10,7 +12,7 @@ defmodule Myweb.Item do
   import Ecto.Changeset
 
   schema "items" do
-    field :title, :string
+    field(:title, :string)
   end
 
   def changeset(person, params \\ %{}) do
@@ -23,16 +25,22 @@ defmodule Myweb do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec
+    # import Supervisor.Spec
 
     children = [
-      supervisor(Myweb.Repo, []),
-      worker(Cachex, [:my_cache, []])
+      {Myweb.Repo, []},
+      Myweb.Server
+      # supervisor(Myweb.Repo, [])
+      # worker(Cachex, [:my_cache, []])
     ]
 
     opts = [strategy: :one_for_one, name: Myweb.Supervisor]
     Supervisor.start_link(children, opts)
   end
+end
+
+defmodule Myweb.Server do
+  use Maru.Server, otp_app: :myweb
 end
 
 defmodule Myweb.Apiv1 do
@@ -41,8 +49,9 @@ defmodule Myweb.Apiv1 do
 
   alias Plug.Conn
 
-  use Maru.Router
-  version 'v1'
+  use Myweb.Server
+
+  version('v1')
 
   get "/json" do
     json(conn, %{hello: :world})
@@ -54,19 +63,21 @@ defmodule Myweb.Apiv1 do
   end
 
   get "/set" do
-    {_, v} = RedisPool.q({:global, :rds}, ["SET", "uid", Conn.get_req_header(conn, "x-request-id")])
+    {_, v} =
+      RedisPool.q({:global, :rds}, ["SET", "uid", Conn.get_req_header(conn, "x-request-id")])
+
     text(conn, "world")
   end
 
-  get "/ets_set" do
-    {_, v} = Cachex.set(:my_cache, "testkey", "hello,world.")
-    text(conn, v)
-  end
+  # get "/ets_set" do
+  # {_, v} = Cachex.set(:my_cache, "testkey", "hello,world.")
+  # text(conn, v)
+  # end
 
-  get "/ets" do
-    {_, v} = Cachex.get(:my_cache, "testkey")
-    text(conn, v)
-  end
+  # get "/ets" do
+  # {_, v} = Cachex.get(:my_cache, "testkey")
+  # text(conn, v)
+  # end
 
   # get "/mc_set" do
   # {ok} = Memcachir.set("mykey", "hello,world.")
@@ -78,10 +89,10 @@ defmodule Myweb.Apiv1 do
   # text(conn, "#{v}")
   # end
 
-  get "/rest" do
-    res = HTTPotion.get("http://twitter.com", [timeout: 60000])
-    json(conn, %{size: String.length(res.body)})
-  end
+  # get "/rest" do
+  # res = HTTPotion.get("http://twitter.com", timeout: 60000)
+  # json(conn, %{size: String.length(res.body)})
+  # end
 
   get "/select" do
     item = Repo.get(Item, 1)
@@ -91,9 +102,11 @@ defmodule Myweb.Apiv1 do
   get "/update" do
     item = Repo.get!(Item, 1)
     changeset = Item.changeset(item, %{title: String.reverse(item.title)})
+
     case Repo.update(changeset) do
       {:ok, item} ->
         json(conn, %{id: item.id, title: item.title})
+
       {:error, _result} ->
         conn
         |> put_status(404)
