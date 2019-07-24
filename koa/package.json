@@ -1,9 +1,11 @@
 {
   "dependencies": {
     "@npmcorp/redis-pool": "",
+    "coffeescript": "",
     "koa": "",
     "koa-router": "",
     "pg": "",
+    "pm2": "",
     "sequelize": ""
   }
 }
