@@ -1,5 +1,5 @@
-export http_proxy=http://192.168.0.100:8123
-export https_proxy=http://192.168.0.100:8123
+export http_proxy=http://192.168.123.243:8123
+export https_proxy=http://192.168.123.243:8123
 
 go get github.com/gin-gonic/gin
 go get github.com/michelloworld/ez-gin-template
