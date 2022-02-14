@@ -1,0 +1,3 @@
+#
+
+moonc .; lapis server production
