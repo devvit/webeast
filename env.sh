@@ -1,4 +1,4 @@
 #
 
-# pg_ctl -D ./data -l logfile start
+# pg_ctl -D ./pgdata -l logfile start
 export PATH=$PATH:`asdf where openresty`/luajit/bin
