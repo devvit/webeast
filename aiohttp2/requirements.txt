@@ -1,3 +1,6 @@
 aiohttp[speedups]
+aioredis
 gunicorn
+orm[postgresql]
+python-lsp-server[all]
 uvloop

@@ -5,11 +5,12 @@ config = require 'lapis.config'
 config { 'development', 'test', 'production' }, ->
   num_workers 'auto'
   code_cache 'on'
-  port 80
   postgres ->
-    host '192.168.56.105'
-    user 'postgres'
-    database 'dem0_development'
+    host 'unix:/tmp/.s.PGSQL.5432'
+    user os.getenv('USER')
+    database 'testdb'
+  redis ->
+    host 'unix:/tmp/redis.sock'
 
 config 'development', ->
   secret 'development_secret'

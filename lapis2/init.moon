@@ -1,7 +1,6 @@
 --
 
 lpeg = require('lpeg')
--- stringx = require('pl.stringx')
 socket = require('socket')
 cjson = require('cjson')
 
