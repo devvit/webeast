@@ -21,9 +21,11 @@ class SinatraApp < Sinatra::Base
   end
 
   get '/get' do
-    REDIS.with do |conn|
-      conn.get('mydata')
+    val = REDIS.with do |conn|
+      conn.get('hello')
     end
+
+    { hello: val }.to_json
   end
 
   get '/set' do
