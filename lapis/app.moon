@@ -1,13 +1,9 @@
 --
--- lapis 1.5.1-1
 
-lapis = require "lapis"
-redis = require 'resty.redis'
+lapis = require 'lapis'
 
-import to_json from require 'lapis.util'
 import Model from require 'lapis.db.model'
-import get_redis from require 'redis_cache'
-import get_memcached from require 'mc'
+import get_redis from require 'lapis.redis'
 
 class Items extends Model
   foo = 'bar'
@@ -15,24 +11,6 @@ class Items extends Model
 class extends lapis.Application
   '/json': =>
     json: { hello: 'world' }
-
-  '/get': =>
-    rds = get_redis!
-    render: false, layout: false, rds\get 'mydata'
-
-  '/set': =>
-    rds = get_redis!
-    render: false, layout: false, rds\set 'uid', ngx.var.request_id
-
-  '/mc_set': =>
-    mc = get_memcached!
-    v, err = mc\set 'testkey', "hello, #{ngx.time!}\n"
-    render: false, layout: false, "result: #{v}\n"
-
-  '/mc': =>
-    mc = get_memcached!
-    v, err = mc\get 'testkey'
-    render: false, layout: false, "#{v}"
 
   '/select': =>
     item = Items\find 1
@@ -43,3 +21,7 @@ class extends lapis.Application
     item.title = item.title\reverse!
     item\update 'title'
     json: { id: item.id, title: item.title }
+
+  '/get': =>
+    redis = get_redis!
+    json: { hello: redis\get('hello') }

@@ -33,11 +33,13 @@ func main() {
   rds := redis.NewClient(&redis.Options{
     Network:  "unix",
     Addr:     "/tmp/redis.sock",
-    PoolSize: 10,
+    PoolSize: 30,
   })
 
-  dsn := "host=localhost port=5432 dbname=testdb sslmode=disable"
+  dsn := "host=/tmp dbname=testdb sslmode=disable"
   db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+    // SkipDefaultTransaction: true,
+    // PrepareStmt: true,
     Logger: logger.Default.LogMode(logger.Silent),
   })
   if err != nil {
@@ -48,8 +50,8 @@ func main() {
   if err != nil {
     panic("failed to connect database")
   }
-  sqlDB.SetMaxIdleConns(10)
-  sqlDB.SetMaxOpenConns(100)
+  sqlDB.SetMaxIdleConns(30)
+  sqlDB.SetMaxOpenConns(30)
   sqlDB.SetConnMaxLifetime(time.Hour)
 
   r := gin.New()
@@ -69,7 +71,7 @@ func main() {
 
   r.GET("/select", func(c *gin.Context) {
     var item Item
-    db.First(&item, 1)
+    db.Take(&item, 1)
     c.JSON(200, gin.H{
       "id": item.ID,
       "title": item.Title,
@@ -78,7 +80,7 @@ func main() {
 
   r.GET("/update", func(c *gin.Context) {
     var item Item
-    db.First(&item, 1)
+    db.Take(&item, 1)
     item.Title = Reverse(item.Title)
     db.Save(&item)
     c.JSON(200, gin.H{
@@ -87,6 +89,6 @@ func main() {
     })
   })
 
-  fmt.Println("start...")
+  fmt.Println("start gorm ...")
   r.RunUnix("/tmp/test.sock")
 }

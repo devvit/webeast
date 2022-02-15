@@ -2,25 +2,24 @@
 
 config = require 'lapis.config'
 
-config {'development', 'production', 'test'}, ->
-  secret 'mysecret'
+config { 'development', 'test', 'production' }, ->
+  num_workers 'auto'
+  code_cache 'on'
   postgres ->
     host 'unix:/tmp/.s.PGSQL.5432'
-    user 'foo'
+    user os.getenv('USER')
     database 'testdb'
+  redis ->
+    host 'unix:/tmp/redis.sock'
 
 config 'development', ->
+  secret 'development_secret'
   num_workers 1
-  daemon 'off'
-  mysql ->
-    path '/tmp/mysql.sock'
-    user 'root'
-    database 'testdb'
+  code_cache 'off'
 
 config 'production', ->
-  num_workers 2
-  daemon 'off'
-  code_cache 'on'
+  secret 'production_secret'
 
 config 'test', ->
-  code_cache 'off'
+  secret 'test_secret'
+  num_workers 1

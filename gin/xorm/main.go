@@ -84,6 +84,6 @@ func main() {
     })
   })
 
-  fmt.Println("start...")
+  fmt.Println("start xorm ...")
   r.RunUnix("/tmp/test.sock")
 }
