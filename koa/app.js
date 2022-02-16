@@ -60,6 +60,6 @@ if (cluster.isMaster) {
     cluster.fork();
   }
 } else {
-  app.listen('/tmp/test.sock');
+  app.listen(process.env['PORT'] || '/tmp/test.sock');
 }
 
