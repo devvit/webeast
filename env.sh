@@ -10,4 +10,4 @@ echo "$redis_conf" >/tmp/redis.conf
 
 redis-server /tmp/redis.conf
 
-pg_ctl -D ./pgdata -l logfile start
+# pg_ctl -D ./pgdata -l logfile start
