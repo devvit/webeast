@@ -8,6 +8,8 @@ config { 'development', 'test', 'production' }, ->
     host 'unix:/tmp/.s.PGSQL.5432'
     user os.getenv('USER')
     database 'testdb'
+    -- pool_size 1
+    -- backlog 2
   redis ->
     host 'unix:/tmp/redis.sock'
 
