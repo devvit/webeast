@@ -74,7 +74,7 @@ async fn main() -> std::io::Result<()> {
     // log::info!("linking database...");
 
     let mut opt = DBPoolOptions::new();
-    opt.max_connections = 100;
+    opt.max_connections = 30;
 
     let rb = Rbatis::new();
     rb.link_opt("postgres://localhost/testdb", opt)
