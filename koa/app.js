@@ -56,7 +56,7 @@ app
   .use(router.allowedMethods());
 
 if (cluster.isMaster) {
-  for (let i = 0; i < numCPUs; i++) {
+  for (let i = 0; i < numCPUs * 2; i++) {
     cluster.fork();
   }
 } else {
