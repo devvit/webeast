@@ -77,7 +77,7 @@ async fn main() -> std::io::Result<()> {
     opt.max_connections = 30;
 
     let rb = Rbatis::new();
-    rb.link_opt("postgres://localhost/testdb", opt)
+    rb.link_opt("postgres:///testdb", opt)
         .await
         .expect("rbatis link database fail");
     let rb = Arc::new(rb);

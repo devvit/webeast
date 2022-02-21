@@ -3,7 +3,6 @@
 config = require 'lapis.config'
 
 config { 'development', 'test', 'production' }, ->
-  num_workers 'auto'
   code_cache 'on'
   postgres ->
     host 'unix:/tmp/.s.PGSQL.5432'
@@ -14,7 +13,6 @@ config { 'development', 'test', 'production' }, ->
 
 config 'development', ->
   secret 'development_secret'
-  num_workers 1
   code_cache 'off'
 
 config 'production', ->
@@ -22,4 +20,3 @@ config 'production', ->
 
 config 'test', ->
   secret 'test_secret'
-  num_workers 1
