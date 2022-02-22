@@ -14,7 +14,7 @@ repositories {
   mavenCentral()
 }
 
-val vertxVersion = "4.2.4"
+val vertxVersion = "4.2.5"
 val junitJupiterVersion = "5.7.0"
 
 val mainVerticleName = "com.example.starter.MainVerticle"
@@ -29,16 +29,18 @@ application {
 
 dependencies {
   implementation(platform("io.vertx:vertx-stack-depchain:$vertxVersion"))
+  implementation("io.vertx:vertx-jdbc-client")
+  implementation("io.vertx:vertx-web-client")
+  implementation("io.vertx:vertx-sql-client-templates")
   implementation("io.vertx:vertx-web")
-  implementation("io.vertx:vertx-pg-client")
   implementation("io.vertx:vertx-redis-client")
   testImplementation("io.vertx:vertx-junit5")
   testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_17
-  targetCompatibility = JavaVersion.VERSION_17
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
 }
 
 tasks.withType<ShadowJar> {
@@ -49,12 +51,12 @@ tasks.withType<ShadowJar> {
   mergeServiceFiles()
 }
 
-/* tasks.withType<Test> { */
-/*   useJUnitPlatform() */
-/*   testLogging { */
-/*     events = setOf(PASSED, SKIPPED, FAILED) */
-/*   } */
-/* } */
+tasks.withType<Test> {
+  useJUnitPlatform()
+  testLogging {
+    events = setOf(PASSED, SKIPPED, FAILED)
+  }
+}
 
 tasks.withType<JavaExec> {
   args = listOf("run", mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$launcherClassName", "--on-redeploy=$doOnChange")
