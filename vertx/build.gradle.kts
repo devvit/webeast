@@ -49,12 +49,12 @@ tasks.withType<ShadowJar> {
   mergeServiceFiles()
 }
 
-tasks.withType<Test> {
-  useJUnitPlatform()
-  testLogging {
-    events = setOf(PASSED, SKIPPED, FAILED)
-  }
-}
+//tasks.withType<Test> {
+//  useJUnitPlatform()
+//  testLogging {
+//    events = setOf(PASSED, SKIPPED, FAILED)
+//  }
+//}
 
 tasks.withType<JavaExec> {
   args = listOf("run", mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$launcherClassName", "--on-redeploy=$doOnChange")
