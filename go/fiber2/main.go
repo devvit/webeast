@@ -2,23 +2,20 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"net"
+	"fmt"
+	"time"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/gofiber/fiber/v2"
-	_ "github.com/lib/pq"
-	"xorm.io/xorm"
-	"xorm.io/xorm/names"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 type Item struct {
-	Id    int    `xorm:"id pk"`
-	Title string `xorm:"title"`
-}
-
-func (Item) TableName() string {
-	return "items"
+	ID    uint
+	Title string
 }
 
 func Reverse(s string) string {
@@ -38,15 +35,23 @@ func main() {
 		PoolSize: 10,
 	})
 
-	engine, err := xorm.NewEngine("postgres", "host=/tmp dbname=testdb")
+	dsn := "host=/tmp dbname=testdb sslmode=disable"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+		// SkipDefaultTransaction: true,
+		// PrepareStmt: true,
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
 	if err != nil {
-		return
+		panic("failed to connect database")
 	}
 
-	engine.SetMapper(names.SameMapper{})
-	engine.ShowSQL(false)
-	engine.SetMaxOpenConns(10)
-	engine.SetMaxIdleConns(10)
+	sqlDB, err := db.DB()
+	if err != nil {
+		panic("failed to connect database")
+	}
+	sqlDB.SetMaxIdleConns(30)
+	sqlDB.SetMaxOpenConns(30)
+	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	app := fiber.New(fiber.Config{
 		// Prefork: true,
@@ -66,26 +71,26 @@ func main() {
 	})
 
 	app.Get("/select", func(c *fiber.Ctx) error {
-		item := Item{}
-		engine.Where("id = ?", 1).Get(&item)
+		var item Item
+		db.Take(&item, 1)
 		return c.JSON(fiber.Map{
-			"id":    item.Id,
+			"id":    item.ID,
 			"title": item.Title,
 		})
 	})
 
 	app.Get("/update", func(c *fiber.Ctx) error {
-		item := Item{}
-		engine.Where("id = ?", 1).Get(&item)
+		var item Item
+		db.Take(&item, 1)
 		item.Title = Reverse(item.Title)
-		engine.ID(1).Update(&item)
+		db.Save(&item)
 		return c.JSON(fiber.Map{
-			"id":    item.Id,
+			"id":    item.ID,
 			"title": item.Title,
 		})
 	})
 
-	fmt.Println("start fiber + xorm ...")
+	fmt.Println("start fiber + gorm ...")
 
 	ln, err := net.Listen("unix", "/tmp/test.sock")
 	if err != nil {
