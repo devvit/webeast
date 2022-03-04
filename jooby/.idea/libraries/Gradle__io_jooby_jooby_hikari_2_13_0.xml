@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.jooby:jooby-hikari:2.13.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.jooby/jooby-hikari/2.13.0/76f4b9a5592adb0301f58eb815f6d015e9d89acc/jooby-hikari-2.13.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.jooby/jooby-hikari/2.13.0/ae81ca96a372bf78b0ee1edbc000b06d75e9e11a/jooby-hikari-2.13.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.jooby:jooby-jackson:2.13.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.jooby/jooby-jackson/2.13.0/320e6526d7282c70bf35845a5fc52110d4d7e4b9/jooby-jackson-2.13.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.jooby/jooby-jackson/2.13.0/fa309bd8f39f5e0835e61005ed8e00fc2a1400b1/jooby-jackson-2.13.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

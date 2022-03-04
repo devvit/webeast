@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.ebean:ebean-core:12.14.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ebean/ebean-core/12.14.1/2a97fb07cc71f3c717fc060375cfeed9e3f16e97/ebean-core-12.14.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ebean/ebean-core/12.14.1/cfb7dbac480c08a052070869e0d4bee290769884/ebean-core-12.14.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

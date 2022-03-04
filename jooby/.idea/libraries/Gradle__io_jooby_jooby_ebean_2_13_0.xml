@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.jooby:jooby-ebean:2.13.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.jooby/jooby-ebean/2.13.0/d510bbfa34ea823d6faa6542e7b1bc01bb690868/jooby-ebean-2.13.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.jooby/jooby-ebean/2.13.0/5bab0446e6cd67bef3c32b3c008e595f3f9fd3a6/jooby-ebean-2.13.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

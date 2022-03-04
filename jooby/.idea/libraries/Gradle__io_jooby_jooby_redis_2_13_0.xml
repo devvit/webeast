@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.jooby:jooby-redis:2.13.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.jooby/jooby-redis/2.13.0/440bc44a6664d140319392c2abb9cceb00b0090e/jooby-redis-2.13.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.jooby/jooby-redis/2.13.0/5bf5cdd0ffb6dfd9ab3c1d09aa950b0dc51b6637/jooby-redis-2.13.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

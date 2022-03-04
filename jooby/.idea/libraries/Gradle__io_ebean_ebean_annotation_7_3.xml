@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.ebean:ebean-annotation:7.3">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ebean/ebean-annotation/7.3/a36878c0d8caf3f078eee82557b02ac8648008f5/ebean-annotation-7.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ebean/ebean-annotation/7.3/1b8e1d253462b4401cf34fd9e4dc9bb93e6ed98/ebean-annotation-7.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
